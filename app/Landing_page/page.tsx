@@ -1,11 +1,24 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 
 interface LandingProps {
   onEnterHome?: () => void;
 }
 
 export default function Landing({ onEnterHome }: LandingProps) {
+  useEffect(() => {
+    // Check if user has visited before
+    const hasVisited = localStorage.getItem('hasVisitedBefore');
+    
+    if (hasVisited && onEnterHome) {
+      // If visited before, automatically redirect
+      onEnterHome();
+    } else {
+      // Set flag for first visit
+      localStorage.setItem('hasVisitedBefore', 'true');
+    }
+  }, [onEnterHome]);
+
   return (
     <div
       style={{
